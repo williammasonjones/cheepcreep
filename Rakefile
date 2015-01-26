@@ -1,5 +1,5 @@
 require "bundler/gem_tasks"
-require_relative "lib/toodoo/init_db"
+require_relative "lib/cheepcreep/init_db"
 
 desc "Run migrations"
 namespace :db do

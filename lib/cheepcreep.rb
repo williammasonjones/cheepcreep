@@ -4,6 +4,9 @@ require "httparty"
 require "pry"
 
 module Cheepcreep
+  class GithubUser < ActiveRecord::Base
+    #validates :login, :uniqueness => true, :presence => true
+  end
 end
 
 class Github
@@ -23,11 +26,12 @@ class Github
   end
 
   # Add a method to return data for a particular github user
-  # def get_user(screen_name)
-  #   self.class.get()
+  # def get_user(screen_name, opts={})
+  #   opts.merge!({:basic_auth => @auth})
+  #   self.class.get("/users/#{screen_name}", opts)
   # end
 
-  # Extra practice using class get_gists method
+  # Extra practice using get_gists method from class
   # I was getting a "Request forbidden by admin rules" error until added user-agent header
   def get_gists(screen_name)
     #self.class.get("/users/#{screen_name}/gists", :headers => {"User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17"})

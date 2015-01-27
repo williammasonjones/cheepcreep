@@ -13,18 +13,23 @@ class Github
   def initialize
     # ENV["FOO"] is like echo $FOO
     @auth = {:username => ENV['GITHUB_USER'], :password => ENV['GITHUB_PASS']}
+    @headers = {"User-Agent" => "cookies"}
   end
 
-  # def get_followers(screen_name)
-  #   self.class.get("/users/followers")
-  # end
+# Add a method that takes a username & returns list of their followers
+  def get_followers(screen_name)
+    self.class.get("/users/#{screen_name}/followers", :headers => @headers)
+    # json = JSON.parse()
+  end
 
   # def get_user(screen_name)
   #   self.class.get()
   # end
 
+  # I was getting a "Request forbidden by admin rules" error until added user-agent header
   def get_gists(screen_name)
-    self.class.get("/users/#{screen_name}/gists", :headers => {"User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17"})
+    #self.class.get("/users/#{screen_name}/gists", :headers => {"User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17"})
+    self.class.get("/users/#{screen_name}/gists", :headers => @headers)
     # json = JSON.parse(result.body)
   end
 end

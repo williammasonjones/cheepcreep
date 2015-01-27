@@ -4,20 +4,16 @@ require "httparty"
 require "pry"
 
 module Cheepcreep
+  # CamelCase names on model need to match snake case names on table
   class GithubUser < ActiveRecord::Base
-    #validates :login, :uniqueness => true, :presence => true
+    validates :login, :uniqueness => true, :presence => true
   end
 end
 
 class Github
   include HTTParty
   base_uri 'https://api.github.com'
-
-  def initialize
-    # ENV["FOO"] is like echo $FOO
-    @auth = {:username => ENV['GITHUB_USER'], :password => ENV['GITHUB_PASS']}
-    @headers = {"User-Agent" => "cookies"}
-  end
+  basic_auth ENV['GITHUB_USER'], ENV['GITHUB_PASS']
 
   # Add a method that takes a username & returns list of their followers
   def get_followers(screen_name)
@@ -26,9 +22,9 @@ class Github
   end
 
   # Add a method to return data for a particular github user
-  # def get_user(screen_name, opts={})
+  # def get_user(screen_name, options={})
   #   opts.merge!({:basic_auth => @auth})
-  #   self.class.get("/users/#{screen_name}", opts)
+  #   self.class.get("/users/#{screen_name}", options)
   # end
 
   # Extra practice using get_gists method from class

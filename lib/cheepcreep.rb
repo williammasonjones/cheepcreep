@@ -16,16 +16,18 @@ class Github
     @headers = {"User-Agent" => "cookies"}
   end
 
-# Add a method that takes a username & returns list of their followers
+  # Add a method that takes a username & returns list of their followers
   def get_followers(screen_name)
     self.class.get("/users/#{screen_name}/followers", :headers => @headers)
     # json = JSON.parse()
   end
 
+  # Add a method to return data for a particular github user
   # def get_user(screen_name)
   #   self.class.get()
   # end
 
+  # Extra practice using class get_gists method
   # I was getting a "Request forbidden by admin rules" error until added user-agent header
   def get_gists(screen_name)
     #self.class.get("/users/#{screen_name}/gists", :headers => {"User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17"})

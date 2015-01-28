@@ -36,12 +36,27 @@ class Github
   end
 
   # Extra practice using get_gists method from class
-  # I was getting a "Request forbidden by admin rules" error until added user-agent header
   def get_gists(screen_name)
-    #self.class.get("/users/#{screen_name}/gists", :headers => {"User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17"})
     self.class.get("/users/#{screen_name}/gists", :headers => @headers)
     # json = JSON.parse(result.body)
   end
+end
+
+# Add a user to the db
+def add_user_to_db(screen_name)
+  user = github.get_user(screen_name)
+  Cheepcreep::GithubUser.create(:login => json['login'],
+                                :name => json['name'],
+                                :blog => json['blog'],
+                                :followers => json['followers'],
+                                :following => json['following'],
+                                :public_repos => json['public_repos'])
+
+end
+
+# Query the database to print a list of the top users sorted by their follower count
+def method_name
+
 end
 
 

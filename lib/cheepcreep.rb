@@ -47,6 +47,16 @@ class Github
     end
   end
 
+  # Create a new gist
+  def method_name
+
+  end
+
+  # Edit a user's gist
+  def method_name
+
+  end
+
   # Star a gist
   # Which gist does it star??
   # content length to zero in header??
@@ -62,6 +72,11 @@ class Github
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
     JSON.parse(result.body)
   end
+end
+
+# Delete a user's gist
+def method_name
+  
 end
 
 # Add a user to the db

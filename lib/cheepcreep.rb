@@ -37,13 +37,30 @@ class Github
 
   # List a user's gists
   def get_gists(screen_name)
-    my_gists = self.class.get("/users/#{screen_name}/gists", :headers => @headers)
-    JSON.parse(my_gists.body)
-    my_gists.each do |gist_hash|
+    result = self.class.get("/users/#{screen_name}/gists", :headers => @headers)
+    puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+    JSON.parse(result.body)
+    result.each do |gist_hash|
       gist_hash['files'].each do |filename, file_hash|
         puts filename
       end
     end
+  end
+
+  # Star a gist
+  # Which gist does it star??
+  # content length to zero in header??
+  def star_gists(screen_name)
+    result = self.class.put("/gists/#{screen_name}/star")
+    puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+    JSON.parse(result.body)
+  end
+
+  # Unstar a gist
+  def unstar_gists(screen_name)
+    result = self.gets.delete("/gists/#{screen_name}/star")
+    puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+    JSON.parse(result.body)
   end
 end
 

@@ -55,14 +55,20 @@ def add_user_to_db(screen_name)
 end
 
 # Query the database to print a list of the top users sorted by their follower count
-def method_name
+# This was Brit's class example. Review w/ Britt for clarification! 
+def sorted_top_users
+  add_github_user('redline6561')
+  followers = github.get_followers('redline6561',1,100)
+  followers.map { |x| x['login'] }.sample(20).each do |username|
+    add_github_user(username)
+  end
 
+  Cheepcreep::GithubUser.order(:followers => :desc).each do |u|
+    puts "User: #{u.login}, Name: #{u.name}, Followers: #{u.followers}"
+  end
 end
 
 
 binding.pry
 
 # github = Github.new
-# resp = github.get_followers('redline6561')
-# followers = JSON.parse(resp.body)
-# Cheepcreep::GithubUser

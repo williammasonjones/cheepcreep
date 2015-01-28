@@ -48,35 +48,34 @@ class Github
   end
 
   # Create a new gist
-  def method_name
-
-  end
+  # def create_gists(user= 'williammasonjones', options={}, info= {:description => "the description of this gist", :public = true, :files => {:file1.txt, {:content => "String file contents"}}})
+  #   options = {:body => info.to_json}
+  #   result = self.class.post("/gists", options, :headers => @headers)
+  #end
 
   # Edit a user's gist
-  def method_name
-
-  end
+  # def edit_gists(id)
+  #   options = {:body => info.to_json}
+  #   result = self.class.patch("/gists/#{id}")
+  #end
 
   # Star a gist
-  # Which gist does it star??
-  # content length to zero in header??
-  def star_gists(screen_name)
-    result = self.class.put("/gists/#{screen_name}/star", :headers => @headers)
+  def star_gists(id)
+    result = self.class.put("/gists/#{id}/star", :headers => @headers)
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
-    JSON.parse(result.body)
   end
 
   # Unstar a gist
-  def unstar_gists(screen_name)
-    result = self.gets.delete("/gists/#{screen_name}/star", :headers => @headers)
+  def unstar_gists(id)
+    result = self.class.delete("/gists/#{id}/star", :headers => @headers)
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
-    JSON.parse(result.body)
   end
-end
 
-# Delete a user's gist
-def method_name
-  
+  # Delete a user's gist
+  def delete_gists(id)
+    result = self.class.delete("/gists/#{id}", :headers => @headers)
+    puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+  end
 end
 
 # Add a user to the db

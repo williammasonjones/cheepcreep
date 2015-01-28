@@ -15,17 +15,25 @@ class Github
   base_uri 'https://api.github.com'
   basic_auth ENV['GITHUB_USER'], ENV['GITHUB_PASS']
 
-  # Add a method that takes a username & returns list of their followers
-  def get_followers(screen_name)
-    self.class.get("/users/#{screen_name}/followers", :headers => @headers)
-    # json = JSON.parse()
+  # Can't get it to work unless I use user-agent???
+  def initialize
+    @headers = {"User-Agent" => "cookies"}
   end
 
   # Add a method to return data for a particular github user
-  # def get_user(screen_name, options={})
-  #   opts.merge!({:basic_auth => @auth})
-  #   self.class.get("/users/#{screen_name}", options)
-  # end
+  def get_user(screen_name)
+    result = self.class.get("/users/#{screen_name}", :headers => @headers)
+    puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+    JSON.parse(result.body)
+
+  end
+
+  # Add a method that takes a username & returns list of their followers
+  def get_followers(screen_name, page=1, per_page=20)
+    result = self.class.get("/users/#{screen_name}/followers", :headers => @headers)
+    puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+    JSON.parse(result.body)
+  end
 
   # Extra practice using get_gists method from class
   # I was getting a "Request forbidden by admin rules" error until added user-agent header

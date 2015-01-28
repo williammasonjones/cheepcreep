@@ -47,11 +47,13 @@ class Github
     end
   end
 
-  # Create a new gist
-  # def create_gists(user= 'williammasonjones', options={}, info= {:description => "the description of this gist", :public = true, :files => {:file1.txt, {:content => "String file contents"}}})
-  #   options = {:body => info.to_json}
-  #   result = self.class.post("/gists", options, :headers => @headers)
-  #end
+  # Create a new gist, Reasonable options keys: :public, :description
+  # create_gist('foo.rb', :public => false, :description => "bar")
+  def create_gists(file, options={})
+    opts = {:files => {File.basename(file) => { 'content' => File.read(file) }}}
+    options.merge!(opts)
+    result = self.class.post("/gists", :body => options.to_json, :headers => @headers)
+  end
 
   # Edit a user's gist
   # def edit_gists(id)

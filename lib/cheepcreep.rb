@@ -51,14 +51,14 @@ class Github
   # Which gist does it star??
   # content length to zero in header??
   def star_gists(screen_name)
-    result = self.class.put("/gists/#{screen_name}/star")
+    result = self.class.put("/gists/#{screen_name}/star", :headers => @headers)
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
     JSON.parse(result.body)
   end
 
   # Unstar a gist
   def unstar_gists(screen_name)
-    result = self.gets.delete("/gists/#{screen_name}/star")
+    result = self.gets.delete("/gists/#{screen_name}/star", :headers => @headers)
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
     JSON.parse(result.body)
   end

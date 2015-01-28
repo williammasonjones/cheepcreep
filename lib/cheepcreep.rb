@@ -35,10 +35,15 @@ class Github
     JSON.parse(result.body)
   end
 
-  # Extra practice using get_gists method from class
+  # List a user's gists
   def get_gists(screen_name)
-    self.class.get("/users/#{screen_name}/gists", :headers => @headers)
-    # json = JSON.parse(result.body)
+    my_gists = self.class.get("/users/#{screen_name}/gists", :headers => @headers)
+    JSON.parse(my_gists.body)
+    my_gists.each do |gist_hash|
+      gist_hash['files'].each do |filename, file_hash|
+        puts filename
+      end
+    end
   end
 end
 
@@ -55,7 +60,7 @@ def add_user_to_db(screen_name)
 end
 
 # Query the database to print a list of the top users sorted by their follower count
-# This was Brit's class example. Review w/ Britt for clarification! 
+# This was Brit's class example. Review w/ Britt for clarification!
 def sorted_top_users
   add_github_user('redline6561')
   followers = github.get_followers('redline6561',1,100)
@@ -68,7 +73,6 @@ def sorted_top_users
   end
 end
 
+github = Github.new
 
 binding.pry
-
-# github = Github.new

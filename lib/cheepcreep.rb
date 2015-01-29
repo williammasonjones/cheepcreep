@@ -53,6 +53,9 @@ class Github
     opts = {:files => {File.basename(file) => { 'content' => File.read(file) }}}
     options.merge!(opts)
     result = self.class.post("/gists", :body => options.to_json, :headers => @headers)
+    if result.code == 201
+      puts "You have successfully created a new gist!"
+    end
   end
 
   # Edit a user's gist
@@ -64,12 +67,19 @@ class Github
   # Star a gist
   def star_gists(id)
     result = self.class.put("/gists/#{id}/star", :headers => @headers)
+    if result.code == 204
+      puts "You just starred the gist at ID: #{id}"
+    end
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
+
   end
 
   # Unstar a gist
   def unstar_gists(id)
     result = self.class.delete("/gists/#{id}/star", :headers => @headers)
+    if result.code == 204
+      puts "You just unstarred the gist at ID: #{id}"
+    end
     puts "#{result.headers['x-ratelimit-remaining']} requests left!"
   end
 
